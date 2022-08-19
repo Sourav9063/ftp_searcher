@@ -15,6 +15,8 @@ https.get('https://sites.google.com/view/bdixftpserverlist/media-ftp-servers', f
     res.on('end', function () {
         var dom = parser.parse(body);
         var links = dom.querySelectorAll('a div p');
+        console.log("processing links");
+        console.log(`There are ${links.length} links`);
         links.forEach(function (link) {
             // if (!link.textContent.toString().includes('facebook')) {
             //     fs.appendFile(file, link.textContent + '\n', function (err) {
@@ -52,5 +54,7 @@ https.get('https://sites.google.com/view/bdixftpserverlist/media-ftp-servers', f
         );
 
 
+
     });
 });
+console.log("done");
