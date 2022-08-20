@@ -3,12 +3,19 @@ const open = require('open');
 const fs = require('fs');
 const readline = require('readline');
 
+let folder = "Media"
+if (process.argv.length > 2) {
+    if (process.argv[2].toLocaleUpperCase().includes("L")) {
+        folder = "LiveTV"
+    }
+}
 
-var start = process.argv[2];
-const endIn = process.argv[3];
+
+var start = process.argv[3];
+const endIn = process.argv[4];
 
 async function processLineByLine() {
-    const fileStream = fs.createReadStream('All_working_links.txt');
+    const fileStream = fs.createReadStream(folder + '/All_working_links.txt');
 
     const rl = readline.createInterface({
         input: fileStream,
@@ -22,7 +29,7 @@ async function processLineByLine() {
 
             open(line);
         }
-        else if (count > endIn) {
+        else if (count > endIn || rl.length == 0) {
             break;
         }
         count++;

@@ -3,12 +3,21 @@ var http = require('http');
 var fs = require('fs');
 var parser = require('node-html-parser');
 
-const all_links = fs.createWriteStream('All_links.txt');
-const all_working_links = fs.createWriteStream('All_working_links.txt');
+let folder = "Media"
+if (process.argv.length > 2) {
+    if (process.argv[2].toLocaleUpperCase().includes("L")) {
+        folder = "LiveTV"
+    }
+}
 
-var file = 'All_links.txt';
-var file2 = 'All_working_links.txt';
-https.get('https://sites.google.com/view/bdixftpserverlist/media-ftp-servers', function (res) {
+const all_links = fs.mkdir(folder, (err) => {
+    if (err) console.log(err);
+});
+
+
+var file = folder + '/All_links.txt';
+var file2 = folder + '/All_working_links.txt';
+https.get(folder.includes("M") ? 'https://sites.google.com/view/bdixftpserverlist/media-ftp-servers' : 'https://sites.google.com/view/bdixftpserverlist/live-tv-servers', function (res) {
     res.setEncoding('utf8');
     var body = '';
     res.on('data', function (chunk) { body += chunk });
