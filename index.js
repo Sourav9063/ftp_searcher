@@ -10,13 +10,15 @@ if (process.argv.length > 2) {
     }
 }
 
-const all_links = fs.mkdir(folder, (err) => {
-    if (err) console.log(err);
-});
+if (!fs.existsSync(folder)) {
+    const all_links = fs.mkdir(folder, (err) => {
+        if (err) console.log(err);
+    });
+}
 
 
-var file = folder + '/All_links.txt';
-var file2 = folder + '/All_working_links.txt';
+var all_links = folder + '/All_links.txt';
+var all_working_links = folder + '/All_working_links.txt';
 https.get(folder.includes("M") ? 'https://sites.google.com/view/bdixftpserverlist/media-ftp-servers' : 'https://sites.google.com/view/bdixftpserverlist/live-tv-servers', function (res) {
     res.setEncoding('utf8');
     var body = '';
@@ -34,7 +36,7 @@ https.get(folder.includes("M") ? 'https://sites.google.com/view/bdixftpserverlis
             //     });
             // }
             if (!link.textContent.toString().includes('facebook')) {
-                fs.appendFile(file, link.textContent + '\n', function (err) {
+                fs.appendFile(all_links, link.textContent + '\n', function (err) {
                     if (err) console.log("Err ocurred");
                 }
                 );
@@ -44,10 +46,9 @@ https.get(folder.includes("M") ? 'https://sites.google.com/view/bdixftpserverlis
 
                 client = (url.protocol == "https:") ? https : client;
                 client.get(url, function (res) {
-                    // console.log(link.textContent);
-                    // console.log(res.statusCode);
+
                     if (res.statusCode == 200) {
-                        fs.appendFile(file2, link.textContent + '\n', function (err) {
+                        fs.appendFile(all_working_links, link.textContent + '\n', function (err) {
                             if (err) console.log("Err ocurred");
                         });
                     }
@@ -66,4 +67,3 @@ https.get(folder.includes("M") ? 'https://sites.google.com/view/bdixftpserverlis
 
     });
 });
-console.log("done");
