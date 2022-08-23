@@ -16,6 +16,9 @@ if (!fs.existsSync(folder)) {
     });
 }
 
+const all_links_text = fs.createWriteStream(folder + '/All_links.txt');
+
+const all_links_working_text = fs.createWriteStream(folder + '/All_working_links.txt');
 
 var all_links = folder + '/All_links.txt';
 var all_working_links = folder + '/All_working_links.txt';
@@ -45,21 +48,28 @@ https.get(folder.includes("M") ? 'https://sites.google.com/view/bdixftpserverlis
                 var url = new URL(link.textContent);
 
                 client = (url.protocol == "https:") ? https : client;
-                client.get(url, function (res) {
+                const req = client.get(url, function (res) {
 
                     if (res.statusCode == 200) {
+                        console.log(`${link.textContent} working`);
                         fs.appendFile(all_working_links, link.textContent + '\n', function (err) {
                             if (err) console.log("Err ocurred");
                         });
                     }
 
-                }
-                ).on('error', function (e) {
-                    // console.log("Got error: " + e.message);
-                }
 
+                }
                 );
+                req.on('error', (e) => {
+                    console.log(`${link.textContent} error`);
+                })
+                req.setTimeout(15000, () => {
+                    // console.log('timeout')
+                    console.log(`${link.textContent} timeout`);
+                    req.destroy();
+                })
             }
+
         }
         );
 
