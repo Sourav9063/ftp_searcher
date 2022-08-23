@@ -29,7 +29,7 @@ node index.js --livetv
 # Opening Links
 Opening Media links
 ```bash
-node open.js 1 10
+node open.js --media 1 10
 ```
 Opening live tv servers
 ```bash
