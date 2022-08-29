@@ -32,42 +32,14 @@ https.get(folder.includes("M") ? 'https://sites.google.com/view/bdixftpserverlis
         console.log("processing links");
         console.log(`There are ${links.length} links`);
         links.forEach(function (link) {
-            // if (!link.textContent.toString().includes('facebook')) {
-            //     fs.appendFile(file, link.textContent + '\n', function (err) {
-            //         if (err) console.log("Err ocurred");
 
-            //     });
-            // }
             if (!link.textContent.toString().includes('facebook')) {
                 fs.appendFile(all_links, link.textContent + '\n', function (err) {
                     if (err) console.log("Err ocurred");
                 }
                 );
 
-                var client = http;
-                var url = new URL(link.textContent);
-
-                client = (url.protocol == "https:") ? https : client;
-                const req = client.get(url, function (res) {
-
-                    if (res.statusCode == 200) {
-                        console.log(`${link.textContent} working`);
-                        fs.appendFile(all_working_links, link.textContent + '\n', function (err) {
-                            if (err) console.log("Err ocurred");
-                        });
-                    }
-
-
-                }
-                );
-                req.on('error', (e) => {
-                    console.log(`${link.textContent} error`);
-                })
-                req.setTimeout(15000, () => {
-                    // console.log('timeout')
-                    console.log(`${link.textContent} timeout`);
-                    req.destroy();
-                })
+                checkLink(link.textContent);
             }
 
         }
@@ -77,3 +49,62 @@ https.get(folder.includes("M") ? 'https://sites.google.com/view/bdixftpserverlis
 
     });
 });
+
+
+
+function checkLink(link) {
+    var client = http;
+    var url = new URL(link);
+
+    client = (url.protocol == "https:") ? https : client;
+    const req = client.get(url, function (res) {
+
+        if (res.statusCode == 200) {
+            console.log(`${link} working`);
+            fs.appendFile(all_working_links, link + '\n', function (err) {
+                if (err) console.log("Err ocurred");
+            }
+            );
+        }
+    }
+    );
+    req.on('error', (e) => {
+        console.log(`${link} error`);
+    }
+    )
+    req.setTimeout(15000, () => {
+        // console.log('timeout')
+        console.log(`${link} timeout`);
+        req.destroy();
+    }
+    )
+}
+
+
+
+// var client = http;
+//                 var url = new URL(link.textContent);
+
+//                 client = (url.protocol == "https:") ? https : client;
+//                 const req = client.get(url, function (res) {
+
+//                     if (res.statusCode == 200) {
+//                         console.log(`${link.textContent} working`);
+//                         fs.appendFile(all_working_links, link.textContent + '\n', function (err) {
+//                             if (err) console.log("Err ocurred");
+//                         });
+//                     }
+
+
+//                 }
+//                 );
+//                 req.on('error', (e) => {
+//                     console.log(`${link.textContent} error`);
+//                 })
+
+
+//                 req.setTimeout(15000, () => {
+//                     // console.log('timeout')
+//                     console.log(`${link.textContent} timeout`);
+//                     req.destroy();
+//                 })
