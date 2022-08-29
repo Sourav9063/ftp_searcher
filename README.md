@@ -39,6 +39,6 @@ node open.js --livetv 1 10
 This command will open 1-10 links from All_working_links.txt, in your default browser. Use small deviation for better performance.
 
 ```bash
-node open.js //nothing or word containing 'l' or 'm' //start //end
+node open.js //word containing 'l' or 'm' //start //end
 ```
 This is the general command.
