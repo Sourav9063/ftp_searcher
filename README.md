@@ -1,5 +1,6 @@
 # ftp_searcher
-All ftp media of Bangladesh.
+All ftp links for media and live tv of Bangladesh.
+This nodejs scripts searches through all avaliable link in Bangladesh and enlist all working link for you Internet service.
 
 node.js is prerequisite.
 
