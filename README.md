@@ -12,7 +12,7 @@ npm i
 # Indexing working links
 For indexing media(Movies,Tv series ,etc) links
 ```bash
-node index.js
+node index.js --media
 ```
 For indexing Live tv servers
 ```bash
