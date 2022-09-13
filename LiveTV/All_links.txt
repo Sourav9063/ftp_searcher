@@ -40,15 +40,15 @@ http://103.102.27.172
 https://tv.nbox.live
 http://113.212.111.246
 http://live.moviebazar.net
-http://103.113.224.68
 http://tv.anosbd.com
 http://tv.flashnetbd.net
 http://iptv.itcnbd.com
 http://tv.medialink24.net
 http://iptv.mcnbd.com
+http://103.113.224.68
 http://172.50.50.8
-http://172.27.27.85
 https://iptv.ksnetworkbd.com
+http://172.27.27.85
 http://tv.fn-bd.com
 http://tv.rocketnetbd.com
 http://live.bdlan.net

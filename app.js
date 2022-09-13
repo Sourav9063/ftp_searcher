@@ -19,24 +19,24 @@ const prompt = require('prompt-sync')({
 //     }
 
 // };
-app();
+app(1);
 
 
 
-async function app() {
+function app(loop) {
 
 
-    const command = prompt(chalk.green("Enter Command: (Index/Open)"));
+    const command = prompt(chalk.green("Enter Command: (Index/Open/EXIT)"));
     if (command.toLocaleUpperCase().includes("INDEX")) {
         const folder = prompt(chalk.blue("Enter Type: (Media/LiveTV)"));
         console.log(folder);
 
         if (folder.toLocaleUpperCase().includes("L")) {
-            await indexLinks("LiveTV");
+            indexLinks("LiveTV", loop, app);
         }
         else if (folder.toLocaleUpperCase().includes("M")) {
             console.log("Indexing Media");
-            await indexLinks("Media");
+            indexLinks("Media", loop, app);
         }
         else {
             console.log("Invalid Type");
@@ -48,12 +48,12 @@ async function app() {
             const start = prompt(chalk.green("Enter Start: "));
             const endIn = prompt(chalk.green("Enter End: "));
 
-            await processLineByLine("LiveTV", start, endIn);
+            processLineByLine("LiveTV", start, endIn, loop, app);
         }
         else if (folder.toLocaleUpperCase().includes("M")) {
             const start = prompt(chalk.green("Enter Start: "));
             const endIn = prompt(chalk.green("Enter End: "));
-            await processLineByLine("Media", start, endIn);
+            processLineByLine("Media", start, endIn, loop, app);
         }
         else {
             console.log("Invalid Type");
@@ -65,6 +65,7 @@ async function app() {
     }
     else {
         console.log("Invalid Command");
+        app(loop);
     }
     return 'again'
 
