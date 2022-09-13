@@ -1,12 +1,32 @@
 # ftp_searcher
 All ftp links for media and live tv of Bangladesh.
-This nodejs scripts searches through all avaliable link in Bangladesh and enlist all working link for you Internet service.
+This nodejs app searches through all avaliable link in Bangladesh and enlist all working link for you Internet service provider and allows to open then in your browser.
 
-node.js is prerequisite.
+# Installation
+
+Simply download the app for [Windows](https://github.com/Sourav9063/ftp_searcher/releases/download/1.0.0/app-win.exe), [MacOS](https://github.com/Sourav9063/ftp_searcher/releases/download/1.0.0/app-macos), [Linux](https://github.com/Sourav9063/ftp_searcher/releases/download/1.0.0/app-linux).
+Open the app and follow the instructions.
+
+(Please star the project 🌟)
+
+![Screenshot 2022-09-13 072344](https://user-images.githubusercontent.com/53114581/189786873-ea7be633-87a7-4c7c-a202-c83e636441be.jpg)
+
+![Screenshot 2022-09-13 072515](https://user-images.githubusercontent.com/53114581/189786975-62327fe2-ed23-434e-81b1-56fee46f1728.jpg)
+This will open top 10 media links.
+![Screenshot 2022-09-13 072739](https://user-images.githubusercontent.com/53114581/189787231-a537025f-8f4a-4f68-acd5-64ef24dfec21.jpg)
+![Screenshot 2022-09-13 072852](https://user-images.githubusercontent.com/53114581/189787355-fe77adf2-8f67-4792-abed-af7fb61b99c2.jpg)
+
+# Codes
 
 Clone the repo. Install all dependencies.
 ```bash
 npm i
+```
+node.js is prerequisite.
+# Command line app
+This has all of the functionalities.
+```bash
+node app.js
 ```
 
 # Indexing working links
