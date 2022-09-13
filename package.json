@@ -5,11 +5,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "sourav",
   "license": "ISC",
-  "description": "",
+  "description": "ftp search for bd",
   "dependencies": {
+    "chalk": "^4.1.2",
     "node-html-parser": "^5.4.2-0",
-    "open": "^8.4.0"
+    "open": "^8.4.0",
+    "prompt-sync": "^4.2.0"
   }
 }

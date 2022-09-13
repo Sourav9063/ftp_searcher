@@ -3,30 +3,8 @@ const https = require('https');
 const http = require('http');
 const fs = require('fs');
 const parser = require('node-html-parser');
-// convert all require to import
-
-// import chalk from 'chalk';
-// import https from 'https';
-// import http from 'http';
-// import fs from 'fs';
-// import parser from 'node-html-parser';
-
-
-
-
-if (process.argv.length > 2) {
-    if (process.argv[2].toLocaleUpperCase().includes("L")) {
-        indexLinks("LiveTV");
-    }
-    else {
-        indexLinks("Media");
-    }
-}
-else {
-    indexLinks("Media");
-}
-
-
+const open = require('open');
+const readline = require('readline');
 
 async function indexLinks(folder = 'Media') {
 
@@ -53,7 +31,7 @@ async function indexLinks(folder = 'Media') {
             var links = dom.querySelectorAll('a div p');
             console.log("processing links");
             console.log(`There are ${links.length} links`);
-            links.forEach(function (link) {
+            links.forEach(async function (link) {
 
                 if (!link.textContent.toString().includes('facebook')) {
                     fs.appendFile(all_links, link.textContent + '\n', function (err) {
@@ -62,7 +40,7 @@ async function indexLinks(folder = 'Media') {
                     }
                     );
 
-                    checkLink(link.textContent, all_working_links, all_links);
+                    await checkLink(link.textContent, all_working_links, all_links);
                 }
 
             }
@@ -74,7 +52,7 @@ async function indexLinks(folder = 'Media') {
     });
 }
 
-function checkLink(link, all_working_links, all_links) {
+async function checkLink(link, all_working_links, all_links) {
     var client = http;
     var url = new URL(link);
 
@@ -102,34 +80,40 @@ function checkLink(link, all_working_links, all_links) {
     )
 }
 
+async function processLineByLine(folder = 'Media', start = 0, endIn = 0) {
+    start = parseInt(start);
+    endIn = parseInt(endIn);
+    let fileStream;
+    try {
+        fileStream = fs.createReadStream(folder + '/All_working_links.txt');
 
 
-// var client = http;
-//                 var url = new URL(link.textContent);
+        const rl = readline.createInterface({
+            input: fileStream,
+            crlfDelay: Infinity
+        });
+        // console.dir(rl)
+        let count = 1;
 
-//                 client = (url.protocol == "https:") ? https : client;
-//                 const req = client.get(url, function (res) {
+        for await (const line of rl) {
+            if (count >= start && count <= endIn) {
 
-//                     if (res.statusCode == 200) {
-//                         console.log(`${link.textContent} working`);
-//                         fs.appendFile(all_working_links, link.textContent + '\n', function (err) {
-//                             if (err) console.log("Err ocurred");
-//                         });
-//                     }
+                open(line);
+            }
+            else if (count > endIn || rl.length == 0) {
+                break;
+            }
+            count++;
+        }
+    }
+    catch (err) {
 
+        console.log("No file found. Indexing links");
+        indexLinks(folder);
 
-//                 }
-//                 );
-//                 req.on('error', (e) => {
-//                     console.log(`${link.textContent} error`);
-//                 })
+    }
 
-
-//                 req.setTimeout(15000, () => {
-//                     // console.log('timeout')
-//                     console.log(`${link.textContent} timeout`);
-//                     req.destroy();
-//                 })
+}
 
 
-module.exports = { indexLinks };
+module.exports = { indexLinks, processLineByLine };
