@@ -1,7 +1,5 @@
 # ftp_searcher
-All ftp links for media and live tv of Bangladesh.
-This nodejs app searches through all avaliable link in Bangladesh and enlist all working link for you Internet service provider and allows to open then in your browser.
-
+All ftp links for media and live tv of Bangladesh. This program searches through all available links in Bangladesh and enlists all working links for your Internet service provider and allows you to open them in your browser.
 # Installation
 
 Simply download the app for [Windows](https://github.com/Sourav9063/ftp_searcher/releases/download/1.0.0/app-win.exe), [MacOS](https://github.com/Sourav9063/ftp_searcher/releases/download/1.0.0/app-macos), [Linux](https://github.com/Sourav9063/ftp_searcher/releases/download/1.0.0/app-linux).
