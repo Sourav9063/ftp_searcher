@@ -6,31 +6,40 @@ const init = async () => {
   console.log(globalMedia);
   let newGlobalMedia = [];
 
-  for (let i = 0; i < 10; i++) {
-    try {
-      const res = await fetch(globalMedia[i]);
-      const data = await res.text();
-      if (res.ok && data) {
-        newGlobalMedia.push(globalMedia[i]);
+  for (let i = 0; i < globalMedia.length; i++) {
+    if (globalMedia[i].includes("bbc")) {
+      console.log(globalMedia[i]);
+      if (
+        globalMedia[i].includes("stream") ||
+        globalMedia[i].includes("watch") ||
+        globalMedia[i].includes("live") ||
+        globalMedia[i].includes("tv") ||
+        globalMedia[i].includes("movie") ||
+        globalMedia[i].includes("show")
+      ) {
+      } else {
+        continue;
       }
-    } catch (error) {
-      console.log(error);
     }
+    newGlobalMedia.push(globalMedia[i]);
   }
-  // await globalMedia.forEach(async (link) => {
-  //   try {
-  //     const res = await fetch(link);
-  //     const data = await res.text();
-  //     if (data) {
-  //       newGlobalMedia.push(link);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // });
+  console.log(newGlobalMedia.length);
+  console.log(globalMedia.length);
   fs.writeFileSync(
     "./globalMedia-clean.json",
-    JSON.stringify({ globalMedia: globalMedia, newGlobalMedia: newGlobalMedia })
+    JSON.stringify({ globalMedia: newGlobalMedia, oldGlobalMedia: globalMedia })
+  );
+};
+
+const revert = () => {
+  const data = fs.readFileSync("./globalMedia-clean.json");
+  const { globalMedia, oldGlobalMedia } = JSON.parse(data);
+  fs.writeFileSync(
+    "./globalMedia-clean.json",
+    JSON.stringify({
+      globalMedia: oldGlobalMedia,
+      oldGlobalMedia: oldGlobalMedia,
+    })
   );
 };
 

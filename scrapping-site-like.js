@@ -39,15 +39,24 @@ const init = async () => {
   const data = await res.json();
   const globalMedia = data.globalMedia;
   let newGlobalMedia = [];
+  let zeros = [];
 
   for (let i = 0; i < globalMedia.length; i++) {
     console.log({ i });
     const allLinks = await getAllLinks({ sameLink: globalMedia[i] });
+    if (allLinks.length == 0) {
+      zeros.push(globalMedia[i]);
+    }
     console.log("allLinks:" + allLinks.length);
-    await timeout(1000);
+    await timeout(5000);
     newGlobalMedia = [...newGlobalMedia, ...allLinks];
     if (i % 100 == 0) {
+      newGlobalMedia = [...globalMedia, ...newGlobalMedia];
       newGlobalMedia = [...new Set(newGlobalMedia)];
+      fs.writeFileSync(
+        "./globalMedia-new.json",
+        JSON.stringify({ globalMedia: newGlobalMedia, zeros: zeros })
+      );
     }
     console.log("total:" + newGlobalMedia.length);
   }
@@ -61,10 +70,53 @@ const init = async () => {
   newGlobalMedia = [...globalMedia, ...newGlobalMedia];
   newGlobalMedia = [...new Set(newGlobalMedia)];
   fs.writeFileSync(
-    "./globalMedia.json",
-    JSON.stringify({ globalMedia: newGlobalMedia })
+    "./globalMedia-new.json",
+    JSON.stringify({ globalMedia: newGlobalMedia, zeros: zeros })
   );
 };
 
-init();
+const zeros = async () => {
+  // const res = await fetch(existingDb);
+  // const data = await res.json();
+  const data = fs.readFileSync("./globalMedia-new2.json");
+  const all = JSON.parse(data);
+  const globalMedia = all.zeros;
 
+  let newGlobalMedia = all.globalMedia;
+  let zeros = [];
+
+  for (let i = 0; i < globalMedia.length; i++) {
+    console.log({ i });
+    const allLinks = await getAllLinks({ sameLink: globalMedia[i] });
+    if (allLinks.length == 0) {
+      zeros.push(globalMedia[i]);
+    }
+    console.log("allLinks:" + allLinks.length);
+    await timeout(5000);
+    newGlobalMedia = [...newGlobalMedia, ...allLinks];
+    if (i % 100 == 0) {
+      newGlobalMedia = [...globalMedia, ...newGlobalMedia];
+      newGlobalMedia = [...new Set(newGlobalMedia)];
+      fs.writeFileSync(
+        "./globalMedia-new2.json",
+        JSON.stringify({ globalMedia: newGlobalMedia, zeros: zeros })
+      );
+    }
+    console.log("total:" + newGlobalMedia.length);
+  }
+
+  // globalMedia.forEach(async (link) => {
+  //   const allLinks = await getAllLinks({ sameLink: link });
+  //   await timeout(2000);
+  //   newGlobalMedia = [...newGlobalMedia, ...allLinks];
+  //   console.log(newGlobalMedia.length);
+  // });
+  newGlobalMedia = [...globalMedia, ...newGlobalMedia];
+  newGlobalMedia = [...new Set(newGlobalMedia)];
+  fs.writeFileSync(
+    "./globalMedia-new3.json",
+    JSON.stringify({ globalMedia: newGlobalMedia, zeros: zeros })
+  );
+};
+
+zeros();
