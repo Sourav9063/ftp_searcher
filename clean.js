@@ -25,6 +25,7 @@ const init = async () => {
   }
   console.log(newGlobalMedia.length);
   console.log(globalMedia.length);
+  newGlobalMedia = [...new Set(newGlobalMedia)];
   fs.writeFileSync(
     "./globalMedia-clean.json",
     JSON.stringify({ globalMedia: newGlobalMedia, oldGlobalMedia: globalMedia })
