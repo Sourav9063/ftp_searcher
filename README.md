@@ -1,3 +1,8 @@
+# UPDATE
+## [ftp-nextron](https://github.com/Sourav9063/ftp-nextron), Made using ElectronJs, It's a UI project of this.
+## [APIs](https://sourav9063.github.io/ftp-nextron/)
+## [WEBAPP](https://searchftp.vercel.app/)
+## [WEBAPP repo](https://github.com/Sourav9063/watchtogether)
 # ftp_searcher
 All ftp links for media and live tv of Bangladesh. This program searches through all available links in Bangladesh and enlists all working links for your Internet service provider and allows you to open them in your browser.
 # Installation
