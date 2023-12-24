@@ -119,4 +119,88 @@ const zeros = async () => {
   );
 };
 
-zeros();
+// zeros();
+function shuffleArray(array) {
+  for (var i = array.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+}
+
+async function clean({ type }) {
+  const res = fs.readFileSync("./clean.json");
+
+  const data = JSON.parse(res);
+  const subData = data[type];
+  for (let rmURL of data?.removed) {
+    const rm = await getAllLinks({ sameLink: rmURL });
+    console.log(rm);
+    console.log(rm.length);
+    shuffleArray(subData);
+    console.log(subData.length);
+    for (let url of rm) {
+      subData.splice(subData.indexOf(url), 1);
+    }
+    console.log(subData.length);
+    fs.writeFileSync(
+      "./clean.json",
+      JSON.stringify({
+        [type]: [...subData],
+        removed: [...rm, ...data?.removed],
+      })
+    );
+    await timeout(5000);
+  }
+}
+
+async function newAdd({ type }) {
+  const res = fs.readFileSync("./new.json");
+
+  const data = JSON.parse(res);
+  let subData = data[type];
+  const done = data?.done;
+  for (let rmURL of subData) {
+    if (
+      done.includes(rmURL) ||
+      rmURL.includes("facebook") ||
+      rmURL.includes("blog") ||
+      rmURL.includes("youtube") ||
+      rmURL.includes("yts") ||
+      rmURL.includes("uwatchfree") ||
+      !rmURL.includes("putlocker.0nline.tv")
+    ) {
+      console.log("skipped");
+      continue;
+    }
+    done.push(rmURL);
+    const rm = await getAllLinks({ sameLink: rmURL });
+    console.log(rm);
+    console.log(rm.length);
+    // shuffleArray(subData);
+    console.log(subData.length);
+    let count = 0;
+    for (let url of rm) {
+      if (!subData.includes(url)) {
+        subData = [url, ...subData];
+        count++;
+      }
+      if (count == 10) {
+        break;
+      }
+    }
+    console.log(subData.length);
+    fs.writeFileSync(
+      "./new.json",
+      JSON.stringify({
+        [type]: [...subData],
+        done: [...done],
+      })
+    );
+    await timeout(5000);
+  }
+}
+newAdd({ type: "globalMedia" });
+
+//(.)*anix|cartoon|watch|movie|tv|film|cine|show|serie|soap|bflix|flix|anim|1hd|m4u|stream|media|drama|zoro|goku|putlocker(.)*
