@@ -169,7 +169,7 @@ async function newAdd({ type }) {
       rmURL.includes("youtube") ||
       rmURL.includes("yts") ||
       rmURL.includes("uwatchfree") ||
-      !rmURL.includes("putlocker.0nline.tv")
+      !rmURL.includes("fmoviesz")
     ) {
       console.log("skipped");
       continue;
@@ -204,3 +204,18 @@ async function newAdd({ type }) {
 newAdd({ type: "globalMedia" });
 
 //(.)*anix|cartoon|watch|movie|tv|film|cine|show|serie|soap|bflix|flix|anim|1hd|m4u|stream|media|drama|zoro|goku|putlocker(.)*
+
+const htmlParse = async ({ site, querySelectorAll }) => {
+  const res = await fetch(site);
+  console.log(res);
+  const data = await res.text();
+  console.log(data.length);
+  const dom = parser.parse(data);
+  const elements = dom.querySelectorAll(querySelectorAll);
+  console.log(elements.length);
+  return elements;
+};
+// htmlParse({
+//   site: "https://fmoviesz.to",
+//   querySelectorAll: "*",
+// });
