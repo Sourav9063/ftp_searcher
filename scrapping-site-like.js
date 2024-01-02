@@ -169,7 +169,7 @@ async function newAdd({ type }) {
       rmURL.includes("youtube") ||
       rmURL.includes("yts") ||
       rmURL.includes("uwatchfree") ||
-      !rmURL.includes("9xmovies")
+      !rmURL.includes("fbox")
     ) {
       console.log("skipped");
       continue;
